@@ -1,0 +1,45 @@
+{
+    "anagraphic": {
+        "id": "2",
+        "name": "Test",
+        "surname": "",
+        "birthDate": "01-01-1900"
+    },
+    "injuries": [
+        {
+            "id": "1",
+            "label": "Opeazione",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "NASO",
+            "type": "OPERAZIONE",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "1900",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "2",
+            "label": "Opeazione",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "COLLO",
+            "type": "OPERAZIONE",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "2010",
+                "month": "",
+                "day": ""
+            }
+        }
+    
+    ]
+
+}
+
+
+

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> test p5.js </title>
+
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="./libs/easydropdown/beanstalk.css">
+
+    <link rel="stylesheet" href="./style/index.css">
+    <link rel="stylesheet" href="./icons/style.css">
+
+</head>
+<body>
+    
+    <header class="header">
+
+        <div class="patient">
+            <div class="label"></div>
+            <div class="value"></div>
+        </div>
+
+        <div class="birthDate">
+            <div class="label"></div>
+            <div class="value"></div>
+        </div>
+
+        
+        <div class="box_select box_select_patient">
+            <select name="patient" id="select_patient">
+                <option value="1">Michele Castenetto</option>
+                <option value="2">Test</option>
+                <option value="3">Test Body Part</option>
+            </select>
+        </div>
+
+
+    </header>
+
+    <main class="main">
+        
+        <div class="col1">
+            <div class="box_body"></div>
+        </div>
+
+        <div class="col2">
+
+            <div class="box_filters">
+
+                <div class="filter_label">Level: </div>
+
+                <div class="box_select">
+                    <select name="ingiury_level" id="select_ingiury_level">
+                        <option value="all">All</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+
+                <div class="filter_label">Type: </div>
+
+                <div class="box_select">
+                    <select name="ingiury_type" id="select_injury_type">
+                        <option value="all">All</option>
+                        <option value="operazione">Operazione</option>
+                        <option value="frattura">Frattura</option>
+                        <option value="trauma">Trauma</option>
+                    </select>
+                </div>
+
+
+            </div>
+
+
+            <div class="box_detail">
+
+                <div class="init_message">Seleziona un evento</div>
+
+                <div class="detail">
+
+                    <div class="box_icon"></div>
+
+                    <div class="title"></div>
+
+                    <div class="field date">
+                        <div class="label">Data: </div>
+                        <div class="value"></div>
+                    </div>
+                    <div class="field age">
+                        <div class="label">Eta: </div>
+                        <div class="value"></div>
+                    </div>
+                    <div class="field description">
+                        <div class="label">Descrizione: </div>
+                        <div class="value"></div>
+                    </div>
+
+                    <div class="field diagnostic">
+                        <div class="label">Esami diagnostici: </div>
+                        <div class="value"></div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="box_timeline"></div>
+
+        </div>
+
+
+
+    </main>
+
+
+    <script src="./libs/moment/moment.js"></script>
+    <script src="./libs/easydropdown/easydropdown.js"></script>
+    <script src="./libs/p5/p5.js"></script>
+
+    <script src="./libs/gutils/gutils.js"></script>
+    <script src="./libs/babylonjs/pep.js"></script>
+    <script src="./libs/babylonjs/Oimo.js"></script>
+    <script src="./libs/babylonjs/cannon.js"></script>
+    <script src="./libs/babylonjs/babylon.max.js"></script>
+    <script src="./libs/babylonjs/loaders/babylon.objFileLoader.js"></script>
+    <script src="./libs/babylonjs/inspector/babylon.inspector.bundle.js"></script>
+
+    <script src="./js/engine3d.js"></script>
+    
+    <script src="./geometries/human1_map.js"></script>
+
+
+    <script src="./js/ui.js"></script>
+    <script src="./js/body.js"></script>
+    <script src="./js/timeline.js"></script>
+    <script src="./js/detail.js"></script>
+
+
+    <script src="./js/app.js"></script>
+
+
+
+
+</body>
+</html>

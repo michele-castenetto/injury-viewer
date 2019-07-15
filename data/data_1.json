@@ -1,0 +1,278 @@
+{
+    "anagraphic": {
+        "id": "1",
+        "name": "Michele",
+        "surname": "Castenetto",
+        "birthDate": "24-06-1983"
+    },
+    "injuries": [
+        {
+            "id": "1",
+            "label": "Operazione appendicite",
+            "description": "Rimozione dell'appendice ciecale in seguito a dolori addominali e alle conseguenti indagini diagnostiche",
+            "healing_time": 21,
+            "diagnostic": [],
+            "bodyLocation": "ADDOME_SX",
+            "type": "OPERAZIONE",
+            "injury_level": 5,
+            "text": "",
+            "dateObj": {
+                "year": "1993",
+                "month": "04",
+                "day": ""
+            }
+        },
+        {
+            "id": "2",
+            "label": "Frattura braccio sx",
+            "bodyLocation": "BRACCIO_SX",
+            "description": "Frattura scomposta esposta dell'ulna del braccio destro, in seguito alla frattura sono stati tagliati numerose fibre muscolari",
+            "healing_time": 60,
+            "diagnostic": ["RX"],
+            "type": "FRATTURA",
+            "injury_level": 7,
+            "text": "",
+            "dateObj": {
+                "year": "1998",
+                "month": "01",
+                "day": ""
+            }
+        },
+        {
+            "id": "3",
+            "label": "Frattura braccio dx",
+            "bodyLocation": "BRACCIO_DX",
+            "description": "Frattura composta del braccio sinistro all'altezza del polso",
+            "healing_time": 30,
+            "diagnostic": ["RX"],
+            "type": "FRATTURA",
+            "injury_level": 2,
+            "text": "",
+            "dateObj": {
+                "year": "1998",
+                "month": "03",
+                "day": "20"
+            }
+        },
+        {
+            "id": "4",
+            "label": "Trauma cranico",
+            "bodyLocation": "CRANIO",
+            "description": "Trauma cranico in seguito a incidente in motorino",
+            "healing_time": 7,
+            "diagnostic": ["RX"],
+            "type": "TRAUMA",
+            "injury_level": 2,
+            "text": "",
+            "dateObj": {
+                "year": "1999",
+                "month": "08",
+                "day": "20"
+            }
+        },
+        {
+            "id": "5",
+            "label": "Trauma mano dx",
+            "bodyLocation": "MANO_DX",
+            "description": "Trauma contusivo alla mano destra",
+            "healing_time": 14,
+            "diagnostic": ["RX"],
+            "type": "TRAUMA",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "2005",
+                "month": "06",
+                "day": "21"
+            }
+        },
+        {
+            "id": "6",
+            "label": "Trauma occipitale",
+            "bodyLocation": "CRANIO",
+            "description": "Trauma cranio in sede occipitale in seguito a caduta su un sasso durante un partita a calcio",
+            "healing_time": 2,
+            "diagnostic": ["RX"],
+            "type": "TRAUMA",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "2006",
+                "month": "07",
+                "day": "06"
+            }
+        },
+        {
+            "id": "7",
+            "label": "Trauma polpaccio",
+            "bodyLocation": "POLPACCIO_DX",
+            "description": "Trauma contusivo al polpaccio destro in seguito a scontro di gioco durante una partita a calcio",
+            "healing_time": 20,
+            "diagnostic": ["RX"],
+            "type": "TRAUMA",
+            "injury_level": 2,
+            "text": "",
+            "dateObj": {
+                "year": "2006",
+                "month": "08",
+                "day": "05"
+            }
+        },
+    
+        {
+            "id": "8",
+            "label": "Trauma cervicale",
+            "bodyLocation": "COLLO",
+            "description": "Cervicalgia post traumatica causata da tamponamento",
+            "healing_time": 60,
+            "diagnostic": ["RX", "RM", "TC"],
+            "type": "TRAUMA",
+            "injury_level": 2,
+            "text": "",
+            "dateObj": {
+                "year": "2006",
+                "month": "05",
+                "day": "09"
+            }
+        },
+        
+        {
+            "id": "9",
+            "label": "Trauma cervicale",
+            "bodyLocation": "COLLO",
+            "description": "Cervicalgia post traumatica causata da tamponamento",
+            "healing_time": 14,
+            "diagnostic": ["RX"],
+            "type": "TRAUMA",
+            "injury_level": 5,
+            "text": "",
+            "note": "Tamponamento in autostrada da parte di un anziano signore che stava facendo Taranto-Tolemezzo in giornata mentre si recava all'anniversario di fidanzamento con la morosa. Le ha pure sentite.",
+            "dateObj": {
+                "year": "2008",
+                "month": "08",
+                "day": "14"
+            }
+        },
+    
+    
+    
+        {
+            "id": "10",
+            "label": "Trauma caviglia dx",
+            "bodyLocation": "CAVIGLIA_DX",
+            "description": "Distorsione caviglia destra con movimento interno durante una partita di calcio",
+            "healing_time": 45,
+            "diagnostic": ["RX", "RM"],
+            "type": "TRAUMA",
+            "injury_level": 3,
+            "text": "",
+            "note": "",
+            "dateObj": {
+                "year": "2011",
+                "month": "08",
+                "day": "17"
+            }
+        },
+    
+    
+    
+        {
+            "id": "11",
+            "label": "Trauma lombare",
+            "bodyLocation": "SCHIENA_LOMBARE",
+            "description": "Dolore persistente alla zona lonbare e coccigea",
+            "healing_time": 45,
+            "diagnostic": ["RX", "RM"],
+            "injury_level": 4,
+            "type": "TRAUMA",
+            "text": "",
+            "note": "",
+            "dateObj": {
+                "year": "2014",
+                "month": "06",
+                "day": "28"
+            }
+        },
+    
+    
+        {
+            "id": "12",
+            "label": "Operazione al naso",
+            "bodyLocation": "NASO",
+            "description": "Setto turbino plastica per mitigare deviazione del setto nasale",
+            "healing_time": 15,
+            "diagnostic": ["TC"],
+            "type": "OPERAZIONE",
+            "injury_level": 3,
+            "text": "",
+            "note": "",
+            "dateObj": {
+                "year": "2014",
+                "month": "07",
+                "day": "08"
+            }
+        },
+    
+    
+        {
+            "id": "13",
+            "label": "Trauma collo",
+            "bodyLocation": "COLLO",
+            "description": "Ematoma sottocutaneo da aggressione",
+            "healing_time": 5,
+            "diagnostic": ["RX"],
+            "type": "TRAUMA",
+            "injury_level": 1,
+            "text": "",
+            "note": "",
+            "dateObj": {
+                "year": "2014",
+                "month": "09",
+                "day": "13"
+            }
+        },
+    
+    
+        {
+            "id": "14",
+            "label": "Trauma pollice mano sx",
+            "bodyLocation": "MANO_SX",
+            "description": "Trauma con distorsione del pollice all'indetro durante scontro di gioco",
+            "healing_time": 30,
+            "diagnostic": ["RX", "RM"],
+            "type": "TRAUMA",
+            "injury_level": 1,
+            "text": "",
+            "note": "",
+            "dateObj": {
+                "year": "2017",
+                "month": "11",
+                "day": ""
+            }
+        },
+    
+    
+        {
+            "id": "15",
+            "label": "Trauma ginocchio dx",
+            "bodyLocation": "GINOCCHIO_SX",
+            "description": "Trauma ginocchio destro con vasto versamento di liquido sinoviale",
+            "healing_time": 180,
+            "diagnostic": ["RX", "RM"],
+            "type": "TRAUMA",
+            "injury_level": 2,
+            "text": "",
+            "note": "",
+            "dateObj": {
+                "year": "2018",
+                "month": "11",
+                "day": ""
+            }
+        }
+    
+    ]
+
+}
+
+
+

@@ -1,0 +1,181 @@
+{
+    "anagraphic": {
+        "id": "3",
+        "name": "Test Body Map",
+        "surname": "",
+        "birthDate": ""
+    },
+    "injuries": [
+        {
+            "id": "1",
+            "label": "Naso",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "NASO",
+            "type": "",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "2",
+            "label": "",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "CRANIO",
+            "type": "",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "3",
+            "label": "",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "COLLO",
+            "type": "",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "4",
+            "label": "",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "SPALLA_DX",
+            "type": "",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "5",
+            "label": "",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "SPALLA_SX",
+            "type": "",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "6",
+            "label": "",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "BRACCIO_DX",
+            "type": "",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "7",
+            "label": "",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "BRACCIO_SX",
+            "type": "",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "8",
+            "label": "",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "POLSO_DX",
+            "type": "",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "9",
+            "label": "",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "POLSO_SX",
+            "type": "",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "10",
+            "label": "",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "MANO_DX",
+            "type": "",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "11",
+            "label": "",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "MANO_SX",
+            "type": "",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "",
+                "month": "",
+                "day": ""
+            }
+        }
+       
+    
+    ]
+
+}
+
+
+
