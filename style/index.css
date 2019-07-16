@@ -240,6 +240,17 @@ html, body {
 }
 
 
+.detail .diagnostic_element {
+    display: inline;
+    border: 1px solid #ddd;
+    background-color: #eee;
+    padding: 0.3rem;
+    cursor: pointer;
+    margin-right: 0.3rem;
+}
+
+
+
 
 /* 
 *  components

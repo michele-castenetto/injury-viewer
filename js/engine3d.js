@@ -4,114 +4,6 @@
     var GUIDGEN = GUTILS.GUIDGEN;
 
 
-    var _computeMeshBoundingInfo = function(scene, mesh) {
-        
-        if (!mesh) { console.error('No mesh provided in _computeMeshBoundingInfo'); return null; }
-        var meshes = mesh.getChildMeshes();
-        meshes.push(mesh);
-        
-        var min = new BABYLON.Vector3(Number.MAX_VALUE, Number.MAX_VALUE, Number.MAX_VALUE);
-        var max = new BABYLON.Vector3(- Number.MAX_VALUE, - Number.MAX_VALUE, - Number.MAX_VALUE);
-
-        for (var i = 0; i <= meshes.length; i++) {
-            var currentMesh = meshes[i];
-
-            if (!currentMesh) { continue; }
-            
-            // ##NOTA Necessario per mesh clonate o mesh a cui sono state applicate trasformazioni
-            currentMesh.computeWorldMatrix(true);
-
-            var bounds = currentMesh.getBoundingInfo();
-            var minimum = bounds.boundingBox.minimumWorld;
-            var maximum = bounds.boundingBox.maximumWorld;
-
-            if (minimum.x < min.x) min.x = minimum.x;
-            if (minimum.y < min.y) min.y = minimum.y;
-            if (minimum.z < min.z) min.z = minimum.z;
-            if (maximum.x > max.x) max.x = maximum.x;
-            if (maximum.y > max.y) max.y = maximum.y;
-            if (maximum.z > max.z) max.z = maximum.z;
-        }
-        var boundingInfo = new BABYLON.BoundingInfo(min, max);
-
-        return boundingInfo;
-    };
-
-
-    var _createMeshBoundingBox = function(scene, mesh) {
-
-        var boundingInfo = _computeMeshBoundingInfo(scene, mesh);
-
-        var size = boundingInfo.maximum.subtract(boundingInfo.minimum);
-
-        var bounding_material = scene.getMaterialByName("mat_boundingbox");
-
-        if (!bounding_material) {
-            bounding_material = new BABYLON.StandardMaterial('mat_boundingbox', scene);
-            bounding_material.wireframe = true;
-        }
-        var boundingMesh = BABYLON.MeshBuilder.CreateBox( mesh.id + '__boundingMesh', { width: size.x, height: size.y, depth: size.z }, scene);
-        boundingMesh.material = bounding_material;
-        boundingMesh.isVisible = false;
-
-        return boundingMesh;
-
-    };
-
-
-    var _createLine = function(scene, point1, point2, color) {
-        var line = BABYLON.Mesh.CreateLines("axisX", [
-            point1,
-            point2
-        ], scene);
-        line.color = color;
-        return line;
-    };
-
-
-    var _createCartesianAxis = function(scene, size) {
-
-        var cartesian_axis = new BABYLON.Mesh('cartesian_axis_world', scene);
-
-        var axisX = _createLine(scene, new BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Color3(1, 0, 0) );
-        var axisY = _createLine(scene, new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, size, 0), new BABYLON.Color3(0, 1, 0) );
-        var axisZ = _createLine(scene, new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, size), new BABYLON.Color3(0, 0, 1) );
-
-        axisX.parent = cartesian_axis;
-        axisY.parent = cartesian_axis;
-        axisZ.parent = cartesian_axis;
-        
-        return cartesian_axis;
-
-    };
-
-
-    var _createCanvasGrafica = function() {
-        var guid = GUIDGEN.generate();
-        var el = document.createElement("canvas");  
-        el.className = "canvas_grafica";
-        el.id = "_canvas_" + guid;
-        el.style.width = "100%";
-        el.style.height = "100%";
-        el.style.touchAction = "none";
-        el.style.outline = "none";
-        el.style.display = "none";
-        return el;
-    };
-
-
-    var _createCanvasContainer = function() {
-        var guid = GUIDGEN.generate();
-        var el = document.createElement("div");  
-        el.className = "g3dcontainer";
-        el.id = "_container_" + guid;
-        el.style.width = "100%";
-        el.style.height = "100%";
-        el.style.display = "none";
-        el.style.position = "relative";
-        return el;
-    };
-    
 
     var Engine3d = (function() {
 
@@ -134,6 +26,9 @@
             this.init(params);
 
         };
+
+
+
 
 
         //#region metodi_init
@@ -159,6 +54,31 @@
         Engine3d.prototype.show = function() { this.toggle(true); }; 
         Engine3d.prototype.hide = function() { this.toggle(false); }; 
         
+
+        var _createCanvasGrafica = function() {
+            var guid = GUIDGEN.generate();
+            var el = document.createElement("canvas");  
+            el.className = "canvas_grafica";
+            el.id = "_canvas_" + guid;
+            el.style.width = "100%";
+            el.style.height = "100%";
+            el.style.touchAction = "none";
+            el.style.outline = "none";
+            el.style.display = "none";
+            return el;
+        };
+        var _createCanvasContainer = function() {
+            var guid = GUIDGEN.generate();
+            var el = document.createElement("div");  
+            el.className = "g3dcontainer";
+            el.id = "_container_" + guid;
+            el.style.width = "100%";
+            el.style.height = "100%";
+            el.style.display = "none";
+            el.style.position = "relative";
+            return el;
+        };
+
         
         Engine3d.prototype.init = function(params) {            
             params = params || {};
@@ -205,7 +125,6 @@
             this.show();
             this.resize();
             
-
         };
 
         
@@ -278,62 +197,15 @@
         };
 
 
-        Engine3d.prototype.setWheelPrecision = function(value) {
-            value = value || 100;
-            var camera = this.scene.activeCamera;
-            camera.wheelPrecision = value;
-        };
-
-        
-
 
         //#endregion metodi_init
+
 
 
         
         
         //#region metodi_load
 
-
-        Engine3d.prototype.loadImage = function(url, callback) {
-
-            var m = new BABYLON.Material('', this.scene);
-
-            m.isReady();
-
-            BABYLON.Tools.LoadImage(
-                url, 
-                function(image) {
-                    callback(null, image);
-                },
-                function(error) {
-                    callback(error);
-                }
-            );
-        };
-
-
-        Engine3d.prototype.loadTexture = function(url, callback) {
-            var texture = new BABYLON.Texture(
-                url, 
-                this.scene,  
-                false, 
-                true, 
-                // BABYLON.Texture.BILINEAR_SAMPLINGMODE,
-                // BABYLON.Texture.NEAREST_SAMPLINGMODE,
-                BABYLON.Texture.TRILINEAR_SAMPLINGMODE,
-                function() {
-                    callback(null, texture);
-                },
-                function(error) {
-                    callback(error);
-                },
-                null,
-                true
-            );
-        };
-
-    
 
         var _loadFile = function(scene, base, path, callback, callback_progress) {
             var onSuccess = function(meshes) { 
@@ -377,59 +249,48 @@
 
 
 
+
         //#region metodi_mesh
 
 
+        Engine3d.prototype.createSphere = function(params) {
 
+            var scene = this.scene;
 
-        Engine3d.prototype.enableEdges = function(rootmesh, includeChilds, params) {
-            params = params || {};
-
-            // var edgesWidth = params.edgesWidth || 1.5;
-            var edgesWidth = params.edgesWidth || 0.5;
-            var edgesColor = params.edgesColor || new BABYLON.Color4.FromInts(255, 164, 32, 255);
-
-            if (rootmesh.geometry) {
-                rootmesh.enableEdgesRendering();
-                rootmesh.edgesWidth = edgesWidth;  
-                rootmesh.edgesColor = edgesColor;
-            }
-
-            if (includeChilds !== true) { return; }
-
-            var meshes = rootmesh.getChildMeshes();
-            meshes.forEach(function(mesh) {
-                if(mesh.geometry && mesh.getBoundingInfo().boundingSphere.radius > 0.1) {
-                    mesh.enableEdgesRendering();
-                    mesh.edgesWidth = edgesWidth; 
-                    mesh.edgesColor = edgesColor; 
-                }
-            });
-
-        };
-
-        Engine3d.prototype.disableEdges = function(rootmesh) {
-
-            if (rootmesh.geometry) {
-                rootmesh.disableEdgesRendering();
-            }
-
-            var meshes = rootmesh.getChildMeshes();
-            meshes.forEach(function(mesh) {
-                if(mesh.geometry) {
-                    mesh.disableEdgesRendering();
-                }
-            });
-
+            var sphere = BABYLON.MeshBuilder.CreateSphere("", {
+                diameter: params.diameter
+            }, scene);
+            
+            engine3d.setMeshPosition(sphere, params.position);
+    
+            sphere.appdata = params.data;
+    
+            sphere.renderingGroupId = 2;
+            
+            return sphere;
+            
         };
 
 
+        Engine3d.prototype.highLightMesh = function(mesh) {
 
+            var scene = this.scene;
 
+            var sphere = BABYLON.MeshBuilder.CreateSphere("", {
+                diameter: 0.05
+            }, scene);
+    
+            sphere.material = this.getEmissiveMaterialRGB({r: 220, g: 150, b: 0, a: 0.5});
+            
+            sphere.position = mesh.position;
+    
+            mesh._highLightMesh = sphere;
 
-
-        Engine3d.prototype.createMeshBoundingBox = function(mesh) {
-            return _createMeshBoundingBox(this.scene, mesh);
+        };
+        Engine3d.prototype.unhighLightMesh = function(mesh) {
+            if (mesh._highLightMesh) {
+                mesh._highLightMesh.dispose();
+            }
         };
 
 
@@ -478,150 +339,131 @@
         };
 
 
+        // var _computeMeshBoundingInfo = function(scene, mesh) {
+            
+        //     if (!mesh) { console.error('No mesh provided in _computeMeshBoundingInfo'); return null; }
+        //     var meshes = mesh.getChildMeshes();
+        //     meshes.push(mesh);
+            
+        //     var min = new BABYLON.Vector3(Number.MAX_VALUE, Number.MAX_VALUE, Number.MAX_VALUE);
+        //     var max = new BABYLON.Vector3(- Number.MAX_VALUE, - Number.MAX_VALUE, - Number.MAX_VALUE);
 
-        // BABYLON.Mesh.prototype.getSize = function() {
-        //     this.refreshBoundingInfo();
-        //     var boundingInfo = this.getBoundingInfo();
-        //     var minimumWorld = boundingInfo.boundingBox.minimumWorld;
-        //     var maximumWorld = boundingInfo.boundingBox.maximumWorld;
-        //     var size = maximumWorld.subtract(minimumWorld);
-        //     return size;
-        // };
-        
+        //     for (var i = 0; i <= meshes.length; i++) {
+        //         var currentMesh = meshes[i];
 
-        // BABYLON.Mesh.prototype.createBoundingBox = function() {
-        //     var scene = this.getScene();
-        //     return _createMeshBoundingBox(scene, this);
-        // };
-        
-        // BABYLON.Mesh.prototype.translatePivot = function(translation) {
-        //     this.setPivotPoint(new BABYLON.Vector3(translation.x, translation.y, translation.z));
-        // };
+        //         if (!currentMesh) { continue; }
+                
+        //         // ##NOTA Necessario per mesh clonate o mesh a cui sono state applicate trasformazioni
+        //         currentMesh.computeWorldMatrix(true);
 
-        // BABYLON.Mesh.prototype.setPosition = function(point) {
-        //     point = point || {};
-        //     var startPoint = this.getAbsolutePosition();
-        //     var x = point.x !== undefined ? point.x : startPoint.x;
-        //     var y = point.y !== undefined ? point.y : startPoint.y;
-        //     var z = point.z !== undefined ? point.z : startPoint.z;
-        //     var position = new BABYLON.Vector3(x, y, z);
-        //     this.position = position;
-        // };
-        
-        // BABYLON.Mesh.prototype.move = function(point) {
-        //     var startPoint = this.getAbsolutePosition();
-        //     var x = point.x !== undefined ? point.x : startPoint.x;
-        //     var y = point.y !== undefined ? point.y : startPoint.y;
-        //     var z = point.z !== undefined ? point.z : startPoint.z;
-        //     var targetPoint = new BABYLON.Vector3(x, y, z);
-        //     var diff = targetPoint.subtract(startPoint);
-        //     this.position.addInPlace(diff);
-        // };
-        // BABYLON.Mesh.prototype.translate = function(point) {
-        //     var x = point.x !== undefined ? point.x : 0;
-        //     var y = point.y !== undefined ? point.y : 0;
-        //     var z = point.z !== undefined ? point.z : 0;
-        //     var translation = new BABYLON.Vector3(x, y, z);
-        //     this.position.addInPlace(translation);
-        // };
-        // BABYLON.Mesh.prototype.scale = function(scaling) {
-        //     if (typeof scaling === "number") {
-        //         scaling = new BABYLON.Vector3(scaling, scaling, scaling);
+        //         var bounds = currentMesh.getBoundingInfo();
+        //         var minimum = bounds.boundingBox.minimumWorld;
+        //         var maximum = bounds.boundingBox.maximumWorld;
+
+        //         if (minimum.x < min.x) min.x = minimum.x;
+        //         if (minimum.y < min.y) min.y = minimum.y;
+        //         if (minimum.z < min.z) min.z = minimum.z;
+        //         if (maximum.x > max.x) max.x = maximum.x;
+        //         if (maximum.y > max.y) max.y = maximum.y;
+        //         if (maximum.z > max.z) max.z = maximum.z;
         //     }
-        //     this.scaling = scaling;
-        // };
-        // BABYLON.Mesh.prototype.rotateX = function(angle) {
-        //     // var quaternion = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.X, BABYLON.Tools.ToRadians(angle));
-        //     // this.rotationQuaternion = quaternion;
-        //     angle = BABYLON.Tools.ToRadians(angle);
-        //     this.rotate(BABYLON.Axis.X, angle, BABYLON.Space.LOCAL);
-        // };
-        // BABYLON.Mesh.prototype.rotateY = function(angle) {
+        //     var boundingInfo = new BABYLON.BoundingInfo(min, max);
 
-        //     angle = BABYLON.Tools.ToRadians(angle);
-        //     this.rotate(BABYLON.Axis.Y, angle, BABYLON.Space.LOCAL);
+        //     return boundingInfo;
         // };
-        // BABYLON.Mesh.prototype.rotateZ = function(angle) {
-        //     angle = BABYLON.Tools.ToRadians(angle);
-        //     this.rotate(BABYLON.Axis.X, angle, BABYLON.Space.LOCAL);
+        // var _createMeshBoundingBox = function(scene, mesh) {
+
+        //     var boundingInfo = _computeMeshBoundingInfo(scene, mesh);
+
+        //     var size = boundingInfo.maximum.subtract(boundingInfo.minimum);
+
+        //     var bounding_material = scene.getMaterialByName("mat_boundingbox");
+
+        //     if (!bounding_material) {
+        //         bounding_material = new BABYLON.StandardMaterial('mat_boundingbox', scene);
+        //         bounding_material.wireframe = true;
+        //     }
+        //     var boundingMesh = BABYLON.MeshBuilder.CreateBox( mesh.id + '__boundingMesh', { width: size.x, height: size.y, depth: size.z }, scene);
+        //     boundingMesh.material = bounding_material;
+        //     boundingMesh.isVisible = false;
+
+        //     return boundingMesh;
+
         // };
+        // Engine3d.prototype.createMeshBoundingBox = function(mesh) {
+        //     return _createMeshBoundingBox(this.scene, mesh);
+        // };
+
+
+
 
         
-        // BABYLON.Mesh.prototype.hide = function(filter_func) {
-        //     this.getChildMeshes(false, filter_func)
-        //     .forEach(function(childmesh) {
-        //         childmesh.isVisible = false;
-        //     });
-        //     this.isVisible = false;
-        // };
-        // BABYLON.Mesh.prototype.show = function(filter_func) {
-        //     this.getChildMeshes(false, filter_func)
-        //     .forEach(function(childmesh) {
-        //         childmesh.isVisible = true;
-        //     });
-        //     this.isVisible = true;
-        // };
-
-
-
-
-
-
-
-        Engine3d.prototype.getMesh = function(name) {
-            var mesh = this.scene.getMeshByName(name);
-            return mesh;
-        };
-        Engine3d.prototype.removeMesh = function(mesh) {
-            if(!mesh) {
-                return;
-            }
-            mesh.dispose();
-        };
-        Engine3d.prototype.removeMeshByName = function(name) {
-            var scene = this.scene;
-            var mesh = scene.getMeshByName(name);
-            this.removeMesh(mesh);
-        };
-        
-        Engine3d.prototype.removeMeshes = function(rootMesh) {
-            var _this = this;
-            var meshes = [];
-            if (rootMesh === null) {
-                return;
-            }
-            if (rootMesh === undefined) {
-                meshes = this.scene.meshes;
-            } else {
-                meshes = rootMesh.getChildMeshes();
-                meshes.push(rootMesh);
-            }
-            meshes.forEach(function(mesh) {
-                _this.scene.removeMesh(mesh);
-            });
-        };
-
-
-        Engine3d.prototype.hideMesh = function(mesh) {
-            if (!mesh) {
-                return;
-            }
-            mesh.getChildMeshes().forEach(function(childmesh) {
-                childmesh.isVisible = false;
-            });
-            mesh.isVisible = false;
-        };   
-        Engine3d.prototype.showMesh = function(mesh) {
-            if (!mesh) {
-                return;
-            }
-            mesh.getChildMeshes().forEach(function(childmesh) {
-                childmesh.isVisible = true;
-            });
-            mesh.isVisible = true;
-        };
-
         //#endregion metodi_mesh
+
+
+
+
+
+        //#region materials
+
+
+        Engine3d.prototype.getEmissiveMaterialRGB = function(color) {
+
+            var scene = this.scene;
+
+            color = color || {};
+            var r = color.r || 0;
+            var g = color.g || 0;
+            var b = color.b || 0;
+            var a = color.a || 1;
+            var materialName = "mat_emis_rgba_" + r + "_" + g + "_" + b + "_" + a;
+            
+            var material = scene.getMaterialByName(materialName);
+    
+            if (material) { return material; }
+    
+            material = new BABYLON.StandardMaterial(materialName, scene);
+            // material.diffuseColor = new BABYLON.Color3(r/255, g/255, b/255);
+            material.emissiveColor = new BABYLON.Color3(r / 255, g / 255, b / 255);
+            material.disableLighting = true;
+            material.alpha = a;
+    
+            return material;
+            
+        };
+
+
+        Engine3d.prototype.getXRayMaterial = function() {
+
+            var scene = this.scene;
+
+            var material = new BABYLON.StandardMaterial("xray", scene);
+            material.emissiveColor = new BABYLON.Color3(1, 1, 1);
+            material.alpha = 0.1;
+            var fresnel_params = new BABYLON.FresnelParameters();
+            fresnel_params.isEnabled = true;
+            // fresnel_params.leftColor = new BABYLON.Color3(0.5, 0.6, 1);
+            fresnel_params.leftColor = new BABYLON.Color3(0.5, 0.6, 0.7);
+            fresnel_params.rightColor = new BABYLON.Color3(0, 0, 0);
+            fresnel_params.power = 2;
+            fresnel_params.bias = 0.1;
+            var fresnel_params2 = new BABYLON.FresnelParameters();
+            fresnel_params2.isEnabled = true;
+            fresnel_params2.leftColor = new BABYLON.Color3(0.4, 0.4, 0.4);
+            // fresnel_params2.rightColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+            fresnel_params2.rightColor = new BABYLON.Color3(0.05, 0.05, 0.05);
+            fresnel_params2.power = 2;
+            fresnel_params2.bias = 0.5;
+            material.emissiveFresnelParameters = fresnel_params;
+            material.opacityFresnelParameters = fresnel_params2;
+    
+            return material;
+            
+        };
+
+
+        //#endregion materials
+
 
 
 
@@ -629,7 +471,38 @@
         //#region tools
 
 
-        
+        Engine3d.prototype.getPickInfo = function() {
+            var scene = this.scene;
+            var picked_info = scene.pick(scene.pointerX, scene.pointerY, function (mesh) {
+                return mesh.appdata;
+            });
+            return picked_info;
+        };
+
+
+        var _createLine = function(scene, point1, point2, color) {
+            var line = BABYLON.Mesh.CreateLines("axisX", [
+                point1,
+                point2
+            ], scene);
+            line.color = color;
+            return line;
+        };
+        var _createCartesianAxis = function(scene, size) {
+
+            var cartesian_axis = new BABYLON.Mesh('cartesian_axis_world', scene);
+
+            var axisX = _createLine(scene, new BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Color3(1, 0, 0) );
+            var axisY = _createLine(scene, new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, size, 0), new BABYLON.Color3(0, 1, 0) );
+            var axisZ = _createLine(scene, new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, size), new BABYLON.Color3(0, 0, 1) );
+
+            axisX.parent = cartesian_axis;
+            axisY.parent = cartesian_axis;
+            axisZ.parent = cartesian_axis;
+            
+            return cartesian_axis;
+
+        };
         Engine3d.prototype.createCartesianAxis = function(size) {
             var _this = this;
             var cartesianAxis = _createCartesianAxis(_this.scene, size);
@@ -645,6 +518,7 @@
             // visible ? this.cartesianAxis.show() : this.cartesianAxis.hide();
             visible ? this.showMesh(this.cartesianAxis) : this.hideMesh(this.cartesianAxis);
         };
+
 
         Engine3d.prototype.toggleDebugLayer = function(visible) {
             if (visible === true || visible === false) {

@@ -2,10 +2,51 @@
     
     var getjson = GUTILS.REQUEST.getjson;
     
-    
-    
+
+    var _basepath = "./";
+    var _geometryPath = _basepath + "geometries/human1.obj";
+    var _bodyMapPath = _basepath + "geometries/human1map.json";
+
+
+    // set getLevelColor sui moduli dipendenti
+    var levelColorMap = {
+        low: { lower: 0, upper: 1, color: {r: 100, g: 200, b: 100} },
+        medium: { lower: 2, upper: 4, color: {r: 200, g: 200, b: 100} },
+        high: { lower: 5, upper: 10, color: {r: 200, g: 100, b: 100} }
+    };
+    var getLevelColor = function(injury_level) {
+
+        var levelSearch = Object.keys(levelColorMap).map(function(key) {
+            return levelColorMap[key];
+        }).filter(function(item) {
+            return injury_level >= item.lower && injury_level <= item.upper;
+        });
+
+        if (!levelSearch.length) {
+            return null;
+        }
+
+        return levelSearch[0].color;
+    };
+    BODY.getLevelColor = getLevelColor;
+    TIMELINE.getLevelColor = getLevelColor;
+    DETAIL.getLevelColor = getLevelColor;
+
+
+    var iconPathMap = {
+        "TRAUMA" : _basepath + "svg/bruise.svg",
+        "FRATTURA" : _basepath + "svg/fracture1.svg",
+        "OPERAZIONE" : _basepath + "svg/operation1.svg",
+    };
+    TIMELINE.iconPathMap = iconPathMap;
+    DETAIL.iconPathMap = iconPathMap;
+
+
+
+
     var _this = {};
 
+    
     _this._data = {};
     _this._injuriesSelected = [];
 
@@ -13,9 +54,9 @@
     _this.filter_type_value = "all";
 
 
-
-    BODY.init();
     
+
+
     // handler click su body
     BODY.handleSphereClick = function(injuryData) {
         DETAIL.setData(injuryData);
@@ -27,9 +68,11 @@
     
     // handler per sincronizzare hover tra timeline e body
     TIMELINE.handleHover = function(injuryData) {
+
         if ( BODY.getHoveredMesh() ) { return; }
 
         if (injuryData) {
+            // console.log("injuryData", injuryData);
             BODY.setFocusedMesh(injuryData.id);
         } else {            
             BODY.setFocusedMesh();
@@ -57,7 +100,7 @@
         _this._injuriesSelected = _this._data.injuries
         .filter(function(injury) {
             return injury.injury_level >= threshold.lower &&
-            injury.injury_level <= threshold.upper;
+                injury.injury_level <= threshold.upper;
         })
         .filter(function(injury) {
             return types.indexOf(injury.type) !== -1; 
@@ -102,7 +145,7 @@
     var edd_patient = easydropdown(document.querySelector('#select_patient'), {
         callbacks: {
             onSelect: function(value) {
-                var filePath = "./data/data_" + value + ".json";
+                var filePath = _basepath + "data/data_" + value + ".json";
                 loadData(filePath);
             }
         }
@@ -120,6 +163,8 @@
         document.querySelector(".header .birthDate .value").innerHTML = anagraphic.birthDate;
 
     };
+
+
     var loadData = function(filePath) {
         
         getjson(filePath, function(err, data) {
@@ -171,10 +216,19 @@
     };
 
 
-    loadData("./data/data_1.json");
+    // inizializzazione visualizzatore corpo umano
+    // e caricamento dati 
+    BODY.init(document.querySelector(".box_body"), _geometryPath, _bodyMapPath, function(err) {
+        if (err) { return console.log(err); }
 
-    
+        loadData(_basepath + "data/data_1.json");
+
+    });
+
+
+
     window.APP = _this;
+
 
 })();
 

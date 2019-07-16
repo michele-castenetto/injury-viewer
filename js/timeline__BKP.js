@@ -54,17 +54,19 @@
         var bruise_icon = null;
         var fracture_icon = null;
         var operation_icon = null;
-        var iconMap = {
-            "TRAUMA" : bruise_icon,
-            "FRATTURA" : fracture_icon,
-            "OPERAZIONE" : operation_icon,
-        };
-        
+        var iconMap = {};
+
+
         var loadIcons = function() {
             p.imageMode(p.CENTER);
             bruise_icon = p.loadImage("./svg/bruise.svg");
             fracture_icon = p.loadImage("./svg/fracture1.svg");
             operation_icon = p.loadImage("./svg/operation1.svg");
+            iconMap = {
+                "TRAUMA" : bruise_icon,
+                "FRATTURA" : fracture_icon,
+                "OPERAZIONE" : operation_icon,
+            };
         };
 
 
@@ -92,9 +94,9 @@
 
             drawData();
             
-            p.image(bruise_icon, 100, p.height/2, 50, 50);
-            p.image(fracture_icon, 200, p.height/2, 50, 50);
-            p.image(operation_icon, 300, p.height/2, 50, 50);
+            // p.image(bruise_icon, 100, p.height/2, 50, 50);
+            // p.image(fracture_icon, 200, p.height/2, 50, 50);
+            // p.image(operation_icon, 300, p.height/2, 50, 50);
 
         };
         
@@ -173,16 +175,37 @@
                 }
 
 
-                var injury_level = injury.injury_level;
-                if (injury_level <= 1) {
-                    p.fill(100, 200, 100);
-                } else if(injury_level <= 4) {
-                    p.fill(200, 200, 100);
-                } else {
-                    p.fill(200, 100, 100);
+                // var injury_level = injury.injury_level;
+                // if (injury_level <= 1) {
+                //     p.fill(100, 200, 100);
+                // } else if(injury_level <= 4) {
+                //     p.fill(200, 200, 100);
+                // } else {
+                //     p.fill(200, 100, 100);
+                // }
+
+
+                var injuty_type = injury.type;
+
+                var icon = iconMap[injuty_type];
+                // console.log(icon);
+
+                if (icon) {
+                    p.image(icon, posX, posY, radius, radius);
                 }
                 
-                p.ellipse(posX, posY, radius, radius);
+
+                p.strokeWeight(2);
+                var injury_level = injury.injury_level;
+                if (injury_level <= 1) {
+                    p.stroke(100, 200, 100);
+                } else if(injury_level <= 4) {
+                    p.stroke(200, 200, 100);
+                } else {
+                    p.stroke(200, 100, 100);
+                }
+                p.fill(255, 0);
+                p.ellipse(posX, posY, radius * (1.5), radius * (1.5));
                 
 
             });

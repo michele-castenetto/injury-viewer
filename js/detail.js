@@ -3,26 +3,6 @@
     var _this = {};
 
 
-    var iconMap = {
-        "TRAUMA" : "./svg/bruise.svg",
-        "FRATTURA" : "./svg/fracture1.svg",
-        "OPERAZIONE" : "./svg/operation1.svg",
-    };
-    var colorMap = {
-
-    };
-
-    var getLevelColor = function(injury_level) {
-        if (injury_level <= 1) {
-            return {r: 100, g: 200, b: 100};
-        } else if(injury_level <= 4) {
-            return {r: 200, g: 200, b: 100};
-        } else {
-            return {r: 200, g: 100, b: 100};
-        }
-    };
-
-
     _this.setData = function(injury, a) {
 
         document.querySelector(".init_message").style = "display:none";
@@ -44,11 +24,11 @@
 
 
         var imgNode = document.createElement("img");
-        imgNode.setAttribute("src", iconMap[injury.type]);
+        imgNode.setAttribute("src", _this.iconPathMap[injury.type]);
         imgNode.setAttribute("class", "icon_svg");
         
         
-        var color = getLevelColor(injury.injury_level);
+        var color = _this.getLevelColor(injury.injury_level);
         var borderStyleString = '3px solid rgb(' + color.r + ',' + color.g + ',' + color.b + ')';
 
         document.querySelector(".detail .box_icon").innerHTML = "";

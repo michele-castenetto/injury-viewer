@@ -38,19 +38,6 @@
 
 
 
-        // p.PShape s;
-
-        // void setup() {
-        //   size(100, 100);
-        //   // The file "bot.svg" must be in the data folder
-        //   // of the current sketch to load successfully
-        //   s = loadShape("bot.svg");
-        // }
-        
-        // void draw() {
-        //   shape(s, 10, 10, 80, 80);
-        // }
-
         var bruise_icon = null;
         var fracture_icon = null;
         var operation_icon = null;
@@ -58,15 +45,12 @@
 
 
         var loadIcons = function() {
-            p.imageMode(p.CENTER);
-            bruise_icon = p.loadImage("./svg/bruise.svg");
-            fracture_icon = p.loadImage("./svg/fracture1.svg");
-            operation_icon = p.loadImage("./svg/operation1.svg");
-            iconMap = {
-                "TRAUMA" : bruise_icon,
-                "FRATTURA" : fracture_icon,
-                "OPERAZIONE" : operation_icon,
-            };
+            
+            Object.keys(p.iconPathMap).forEach(function(key) {
+                var path = p.iconPathMap[key];
+                iconMap[key] = p.loadImage(path);
+            });
+
         };
 
 
@@ -82,6 +66,7 @@
 
             loadIcons();
 
+            p.imageMode(p.CENTER);
 
         };
 
@@ -94,15 +79,10 @@
 
             drawData();
             
-            // p.image(bruise_icon, 100, p.height/2, 50, 50);
-            // p.image(fracture_icon, 200, p.height/2, 50, 50);
-            // p.image(operation_icon, 300, p.height/2, 50, 50);
-
         };
         
 
         var drawData = function() {
-
 
             if (!p.dataLoaded) { return; }
 
@@ -142,10 +122,6 @@
 
 
 
-
-                var radius = 20;
-
-                                
                 p.strokeWeight(1);
                 p.stroke(220);
                 p.line(posX, posY, posX, p.height/2);
@@ -155,34 +131,30 @@
                 p.ellipse(posX, p.height/2, 5, 5);
 
 
-                p.noStroke();
-                if (p.focusData) {
-                    var id = p.focusData.id;
-                    if (injury.id === id) {
-                        radius = 30;
-                        p.stroke(240, 200, 0);
-                        p.strokeWeight(3);
-                    }
+
+                var radius = 20;
+
+                
+                if (p.focusData && p.focusData.id === injury.id) {
+                    radius = 30;
+                    p.fill(255, 0);
+                    p.stroke(240, 200, 0);
+                    p.strokeWeight(5);
+                    p.ellipse(posX, posY, radius * (1.6), radius * (1.6));
                 } 
 
                 if (p.hovered && p.hovered.id === injury.id) {
                     radius = 30;
+                    p.fill(255, 0);
                     p.stroke(240, 200, 0);
-                    p.strokeWeight(3);
+                    p.strokeWeight(5);
+                    p.ellipse(posX, posY, radius * (1.6), radius * (1.6));
                 }
                 if (p.handleHover) {
                     p.handleHover(p.hovered);
                 }
 
 
-                // var injury_level = injury.injury_level;
-                // if (injury_level <= 1) {
-                //     p.fill(100, 200, 100);
-                // } else if(injury_level <= 4) {
-                //     p.fill(200, 200, 100);
-                // } else {
-                //     p.fill(200, 100, 100);
-                // }
 
 
                 var injuty_type = injury.type;
@@ -190,21 +162,19 @@
                 var icon = iconMap[injuty_type];
                 // console.log(icon);
 
-                p.image(icon, posX, posY, radius, radius);
+                if (icon) {
+                    p.image(icon, posX, posY, radius, radius);
+                }
+                
+                p.strokeWeight(2);
+                var color = p.getLevelColor(injury.injury_level);
+                p.stroke(color.r, color.g, color.b);  
                 
 
-                p.strokeWeight(2);
-                var injury_level = injury.injury_level;
-                if (injury_level <= 1) {
-                    p.stroke(100, 200, 100);
-                } else if(injury_level <= 4) {
-                    p.stroke(200, 200, 100);
-                } else {
-                    p.stroke(200, 100, 100);
-                }
                 p.fill(255, 0);
                 p.ellipse(posX, posY, radius * (1.5), radius * (1.5));
-                
+
+
 
             });
         };
@@ -264,9 +234,7 @@
 
     }, document.querySelector(".box_timeline"));
 
-
-   
-
+    
     window.TIMELINE = timeLine;
 
 
