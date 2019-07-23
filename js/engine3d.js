@@ -283,13 +283,38 @@
             sphere.material = this.getEmissiveMaterialRGB({r: 220, g: 150, b: 0, a: 0.5});
             
             sphere.position = mesh.position;
-    
+            
             mesh._highLightMesh = sphere;
+            mesh.isVisible = false;
 
         };
         Engine3d.prototype.unhighLightMesh = function(mesh) {
             if (mesh._highLightMesh) {
                 mesh._highLightMesh.dispose();
+                mesh.isVisible = true;
+            }
+        };
+        Engine3d.prototype.highLightSphereMesh = function(mesh) {
+
+            var scene = this.scene;
+
+            var sphere = BABYLON.MeshBuilder.CreateSphere("", {
+                diameter: 0.05
+            }, scene);
+    
+            sphere.material = this.getEmissiveMaterialRGB({r: 220, g: 150, b: 0, a: 0.5});
+            
+            sphere.position = mesh.position;
+            
+            mesh._highLightMesh = sphere;
+
+            mesh.isVisible = false;
+
+        };
+        Engine3d.prototype.unhighLightSphereMesh = function(mesh) {
+            if (mesh._highLightMesh) {
+                mesh._highLightMesh.dispose();
+                mesh.isVisible = true;
             }
         };
 

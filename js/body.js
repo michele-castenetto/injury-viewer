@@ -13,6 +13,7 @@
 
     _this.handleSphereClick = noop;
 
+    var DELTA_OFFSET_SPHERE = 0.04;
 
     var engine3d = null;
     
@@ -34,8 +35,9 @@
     _this.setFocusedMesh = function(id) {
         
         _dataMesh.forEach(function(mesh) {
-            engine3d.scaleMesh(mesh, 1);
-            engine3d.unhighLightMesh(mesh);
+            // engine3d.scaleMesh(mesh, 1);
+            // engine3d.unhighLightMesh(mesh);
+            engine3d.unhighLightSphereMesh(mesh);
         });
 
         if (!id) { return; }
@@ -45,8 +47,9 @@
         });
 
         if (meshSearch) {
-            engine3d.scaleMesh(meshSearch, 1.3);
-            engine3d.highLightMesh(meshSearch);
+            // engine3d.scaleMesh(meshSearch, 1.3);
+            // engine3d.highLightMesh(meshSearch);
+            engine3d.highLightSphereMesh(meshSearch);
         }
 
     };
@@ -124,16 +127,18 @@
                 return;
             }
             if (_hoveredMesh) {
-                engine3d.scaleMesh(_hoveredMesh, 1);
-                engine3d.unhighLightMesh(_hoveredMesh);
+                // engine3d.scaleMesh(_hoveredMesh, 1);
+                // engine3d.unhighLightMesh(_hoveredMesh);
+                engine3d.unhighLightSphereMesh(_hoveredMesh);
             } 
             
             _hoveredMesh = pickedMesh;
             
             if (_hoveredMesh) {
-                engine3d.scaleMesh(_hoveredMesh, 1.3);
-                engine3d.highLightMesh(_hoveredMesh);
-
+                // engine3d.scaleMesh(_hoveredMesh, 1.3);
+                // engine3d.highLightMesh(_hoveredMesh);
+                engine3d.highLightSphereMesh(_hoveredMesh);
+                
 
                 if (_this.handleHover) {
                     _this.handleHover(_hoveredMesh.appdata);
@@ -186,6 +191,7 @@
             callback(null);
         });
 
+        engine3d.toggleCameraRotateAnimation();
 
         var button = UI.Button();
         button.mount(engine3d.container);
@@ -225,16 +231,16 @@
         var injuriesGroups = Object.keys(injuriesGroupMap).map(function(key) {
             return injuriesGroupMap[key];
         });
+        // console.log("injuriesGroups", injuriesGroups);
         
         
         injuriesGroups.forEach(function(g) {
             if (g.length <= 1) { return; }
 
-            var deltaOffset = 0.04;
-            var xOffset = - deltaOffset * Math.floor(g.length/2);
+            var xOffset = - DELTA_OFFSET_SPHERE * Math.floor(g.length/2);
             g.forEach(function(e) {
                 e.offset = {x: xOffset ,y: 0, z: 0};
-                xOffset += deltaOffset;
+                xOffset += DELTA_OFFSET_SPHERE;
             });
 
         });
@@ -245,21 +251,25 @@
             
             var bodypart = _bodyMap[injury.bodyLocation];
             if (!bodypart) { return; }
-            
-            
-            var color = _this.getLevelColor(injury.injury_level);
+
+            // var color = _this.getLevelColor(injury.injury_level);
+            var color = _this.getLevelColor(injury.injury_level).color;
             color.a = 0.5;
 
             var position = bodypart.position;
+            var spherePosition = {
+                x: position.x,
+                y: position.y,
+                z: position.z
+            };
             if (injury.offset) {
-                position.x = injury.offset.x;
+                spherePosition.x = injury.offset.x;
             }
-
 
             var sphere = engine3d.createSphere({
                 data: injury, 
                 diameter: 0.03,
-                position: bodypart.position
+                position: spherePosition
             });
 
             sphere.material = engine3d.getEmissiveMaterialRGB(color);

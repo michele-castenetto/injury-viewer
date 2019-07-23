@@ -4,15 +4,21 @@
     
 
     var _basepath = "./";
+
+    if (window.APP_BASEPATH) {
+        _basepath = window.APP_BASEPATH;
+    }
+
+
     var _geometryPath = _basepath + "geometries/human1.obj";
     var _bodyMapPath = _basepath + "geometries/human1map.json";
 
 
     // set getLevelColor sui moduli dipendenti
     var levelColorMap = {
-        low: { lower: 0, upper: 1, color: {r: 100, g: 200, b: 100} },
-        medium: { lower: 2, upper: 4, color: {r: 200, g: 200, b: 100} },
-        high: { lower: 5, upper: 10, color: {r: 200, g: 100, b: 100} }
+        low: { lower: 0, upper: 1, label: "Bassa", color: {r: 100, g: 200, b: 100} },
+        medium: { lower: 2, upper: 4, label: "Media", color: {r: 200, g: 200, b: 100} },
+        high: { lower: 5, upper: 10, label: "Alta", color: {r: 200, g: 100, b: 100} }
     };
     var getLevelColor = function(injury_level) {
 
@@ -26,7 +32,8 @@
             return null;
         }
 
-        return levelSearch[0].color;
+        // return levelSearch[0].color;
+        return levelSearch[0];
     };
     BODY.getLevelColor = getLevelColor;
     TIMELINE.getLevelColor = getLevelColor;
@@ -70,7 +77,7 @@
     TIMELINE.handleHover = function(injuryData) {
 
         if ( BODY.getHoveredMesh() ) { return; }
-
+        
         if (injuryData) {
             // console.log("injuryData", injuryData);
             BODY.setFocusedMesh(injuryData.id);
@@ -85,7 +92,7 @@
 
 
 
-    // init select controls
+    // init filter controls
 
 
     var applyFilters = function() {
@@ -142,6 +149,8 @@
     });
 
 
+    // init header patient select
+
     var edd_patient = easydropdown(document.querySelector('#select_patient'), {
         callbacks: {
             onSelect: function(value) {
@@ -152,8 +161,7 @@
     });
 
 
-
-
+    
     var serHeaderData = function(anagraphic) {
 
         document.querySelector(".header .patient .label").innerHTML = "Patient: ";

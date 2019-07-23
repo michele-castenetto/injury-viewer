@@ -56,16 +56,6 @@ html, body {
     height: calc(100% - 3rem);
 }
 
-
-@media screen and (max-width: 786px) {
-    .header {
-        height: 6rem;
-    }
-    .main {
-        height: calc(100% - 6rem);
-    }
-}
-
 .col1 {
     /* border: 1px solid purple; */
     float: left;
@@ -105,6 +95,8 @@ html, body {
     padding: 0.3rem;
 }
 
+
+
 .box_detail {
     border-radius: 2px;
     border: 1px solid #eee;
@@ -136,7 +128,6 @@ html, body {
     }
     .col2 {
         width: 100%;
-        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
     }
     .box_timeline, .box_detail {
         height: 20rem;
@@ -165,8 +156,7 @@ html, body {
 
 .header .patient .label {
     display: inline-block;
-    /* color: #444; */
-    color: #6f777a;
+    color: #444;
     font-size: 1rem;
     font-weight: 400;
     padding: 0.3rem;
@@ -174,8 +164,7 @@ html, body {
 
 .header .patient .value {
     display: inline-block;
-    /* color: #444; */
-    color: #6f777a;
+    color: #444;
     font-size: 1.4rem;
     font-weight: 100;
     padding: 0.3rem;
@@ -183,8 +172,7 @@ html, body {
 
 .header .birthDate .label {
     display: inline-block;
-    /* color: #444; */
-    color: #6f777a;
+    color: #444;
     font-size: 1rem;
     font-weight: 400;
     padding: 0.3rem;
@@ -192,8 +180,7 @@ html, body {
 
 .header .birthDate .value {
     display: inline-block;
-    /* color: #444; */
-    color: #6f777a;
+    color: #444;
     font-size: 1.4rem;
     font-weight: 100;
     padding: 0.3rem;
@@ -213,8 +200,7 @@ html, body {
 .filter_label {
     display: inline-block;
     vertical-align: top;
-    /* color: #444; */
-    color: #6f777a;
+    color: #444;
     font-size: 1rem;
     font-weight: 400;
     padding: 0.3rem;
@@ -237,7 +223,7 @@ html, body {
     position: relative;
     width: 100%;
     height: 100%;
-    padding: 0.5rem;
+    padding: 1rem;
     display: none;
 }
 
@@ -246,13 +232,11 @@ html, body {
     top: 1rem;
     right: 1rem; */
     float: left;
-    width: 3.5rem;
-    height: 3.5rem;
-    margin-right: 1rem;
-    padding: 0.2rem;
-    /* border-radius: 3px; */
-    /* border: 1px solid #eee; */
-    box-shadow: 1px 1px 4px 1px #ddd;
+    width: 4rem;
+    height: 4rem;
+    margin-right: 2rem;
+    padding: 0.3rem;
+    border-radius: 3px;
 }
 .detail .box_icon img {
     width: 100%;
@@ -262,44 +246,30 @@ html, body {
 
 
 .detail .title {
-    /* color: #444; */
-    color: #6f777a;
-    font-size: 1.5rem;
+    color: #444;
+    font-size: 1.6rem;
     font-weight: 100;
-    line-height: 3.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 4rem;
 }
 
 .detail .field {
-    margin-bottom: 0.3rem;
-
+    margin-bottom: 0.5rem;
 }
 
 .detail .field .label {
     display: inline-block;
-    /* color: #444; */
-    color: #6f777a;
+    color: #444;
     font-size: 1rem;
-    font-weight: 100;
+    font-weight: 400;
 }
 
 .detail .field .value {
     display: inline-block;
-    /* color: #444; */
-    color: #6f777a;
-    font-size: 1.1rem;
-    font-weight: 400;
-    margin-left: 0.5rem;
-}
-
-/* .detail .description .value {
-    display: block;
     color: #444;
-    font-size: 1.1rem;
-    font-weight: 400;
-    margin-left: 0rem;
-} */
-
+    font-size: 1.3rem;
+    font-weight: 100;
+    margin-left: 1rem;
+}
 
 
 .detail .diagnostic_element {

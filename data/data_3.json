@@ -12,167 +12,331 @@
             "description": "",
             "diagnostic": [],
             "bodyLocation": "NASO",
-            "type": "",
+            "type": "TRAUMA",
             "injury_level": 1,
             "text": "",
             "dateObj": {
-                "year": "",
+                "year": "2001",
                 "month": "",
                 "day": ""
             }
         },
         {
             "id": "2",
-            "label": "",
+            "label": "CRANIO",
             "description": "",
             "diagnostic": [],
             "bodyLocation": "CRANIO",
-            "type": "",
+            "type": "TRAUMA",
             "injury_level": 1,
             "text": "",
             "dateObj": {
-                "year": "",
+                "year": "2002",
                 "month": "",
                 "day": ""
             }
         },
         {
             "id": "3",
-            "label": "",
+            "label": "COLLO",
             "description": "",
             "diagnostic": [],
             "bodyLocation": "COLLO",
-            "type": "",
+            "type": "TRAUMA",
             "injury_level": 1,
             "text": "",
             "dateObj": {
-                "year": "",
+                "year": "2003",
                 "month": "",
                 "day": ""
             }
         },
         {
             "id": "4",
-            "label": "",
+            "label": "SPALLA_DX",
             "description": "",
             "diagnostic": [],
             "bodyLocation": "SPALLA_DX",
-            "type": "",
+            "type": "TRAUMA",
             "injury_level": 1,
             "text": "",
             "dateObj": {
-                "year": "",
+                "year": "2004",
                 "month": "",
                 "day": ""
             }
         },
         {
             "id": "5",
-            "label": "",
+            "label": "SPALLA_SX",
             "description": "",
             "diagnostic": [],
             "bodyLocation": "SPALLA_SX",
-            "type": "",
+            "type": "TRAUMA",
             "injury_level": 1,
             "text": "",
             "dateObj": {
-                "year": "",
+                "year": "2005",
                 "month": "",
                 "day": ""
             }
         },
         {
             "id": "6",
-            "label": "",
+            "label": "BRACCIO_DX",
             "description": "",
             "diagnostic": [],
             "bodyLocation": "BRACCIO_DX",
-            "type": "",
+            "type": "TRAUMA",
             "injury_level": 1,
             "text": "",
             "dateObj": {
-                "year": "",
+                "year": "2006",
                 "month": "",
                 "day": ""
             }
         },
         {
             "id": "7",
-            "label": "",
+            "label": "BRACCIO_SX",
             "description": "",
             "diagnostic": [],
             "bodyLocation": "BRACCIO_SX",
-            "type": "",
+            "type": "TRAUMA",
             "injury_level": 1,
             "text": "",
             "dateObj": {
-                "year": "",
+                "year": "2007",
                 "month": "",
                 "day": ""
             }
         },
         {
             "id": "8",
-            "label": "",
+            "label": "POLSO_DX",
             "description": "",
             "diagnostic": [],
             "bodyLocation": "POLSO_DX",
-            "type": "",
+            "type": "TRAUMA",
             "injury_level": 1,
             "text": "",
             "dateObj": {
-                "year": "",
+                "year": "2008",
                 "month": "",
                 "day": ""
             }
         },
         {
             "id": "9",
-            "label": "",
+            "label": "POLSO_SX",
             "description": "",
             "diagnostic": [],
             "bodyLocation": "POLSO_SX",
-            "type": "",
+            "type": "TRAUMA",
             "injury_level": 1,
             "text": "",
             "dateObj": {
-                "year": "",
+                "year": "2009",
                 "month": "",
                 "day": ""
             }
         },
         {
             "id": "10",
-            "label": "",
+            "label": "MANO_DX",
             "description": "",
             "diagnostic": [],
             "bodyLocation": "MANO_DX",
-            "type": "",
+            "type": "TRAUMA",
             "injury_level": 1,
             "text": "",
             "dateObj": {
-                "year": "",
+                "year": "2010",
                 "month": "",
                 "day": ""
             }
         },
         {
             "id": "11",
-            "label": "",
+            "label": "MANO_SX",
             "description": "",
             "diagnostic": [],
             "bodyLocation": "MANO_SX",
-            "type": "",
+            "type": "TRAUMA",
             "injury_level": 1,
             "text": "",
             "dateObj": {
-                "year": "",
+                "year": "2011",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "12",
+            "label": "SCHIENA_LOMBARE",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "SCHIENA_LOMBARE",
+            "type": "TRAUMA",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "2012",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "13",
+            "label": "ADDOME_DX",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "ADDOME_DX",
+            "type": "TRAUMA",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "2013",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "14",
+            "label": "ADDOME_SX",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "ADDOME_SX",
+            "type": "TRAUMA",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "2014",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "15",
+            "label": "GINOCCHIO_DX",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "GINOCCHIO_DX",
+            "type": "TRAUMA",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "2015",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "16",
+            "label": "GINOCCHIO_SX",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "GINOCCHIO_SX",
+            "type": "TRAUMA",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "2016",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "17",
+            "label": "POLPACCIO_DX",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "POLPACCIO_DX",
+            "type": "TRAUMA",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "2017",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "18",
+            "label": "POLPACCIO_SX",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "POLPACCIO_SX",
+            "type": "TRAUMA",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "2018",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "19",
+            "label": "CAVIGLIA_DX",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "CAVIGLIA_DX",
+            "type": "TRAUMA",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "2019",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "20",
+            "label": "CAVIGLIA_SX",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "CAVIGLIA_SX",
+            "type": "TRAUMA",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "2020",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "21",
+            "label": "PIEDE_DX",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "PIEDE_DX",
+            "type": "TRAUMA",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "2021",
+                "month": "",
+                "day": ""
+            }
+        },
+        {
+            "id": "22",
+            "label": "PIEDE_SX",
+            "description": "",
+            "diagnostic": [],
+            "bodyLocation": "PIEDE_SX",
+            "type": "TRAUMA",
+            "injury_level": 1,
+            "text": "",
+            "dateObj": {
+                "year": "2022",
                 "month": "",
                 "day": ""
             }
         }
-       
-    
+
     ]
 
 }

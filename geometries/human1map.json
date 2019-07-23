@@ -15,7 +15,7 @@
     "SPALLA_DX": {
         "position": {"x": -0.12, "y": 0.3, "z": -0.04}
     },
-    "SPALL_SX": {
+    "SPALLA_SX": {
         "position": {"x": 0.12, "y": 0.3, "z": -0.04}
     },
     "BRACCIO_DX": {

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title> test p5.js </title>
+    <title> Injury Viewer </title>
 
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
@@ -77,7 +77,7 @@
 
             </div>
 
-            
+
             <div class="box_detail">
 
                 <div class="init_message">Seleziona un evento</div>
@@ -92,8 +92,16 @@
                         <div class="label">Data: </div>
                         <div class="value"></div>
                     </div>
+                    <div class="field level">
+                        <div class="label">Gravità: </div>
+                        <div class="value"></div>
+                    </div>
                     <div class="field age">
-                        <div class="label">Eta: </div>
+                        <div class="label">Età: </div>
+                        <div class="value"></div>
+                    </div>
+                    <div class="field healing">
+                        <div class="label">Tempo guarigione(giorni): </div>
                         <div class="value"></div>
                     </div>
                     <div class="field description">
@@ -101,10 +109,10 @@
                         <div class="value"></div>
                     </div>
 
-                    <div class="field diagnostic">
+                    <!-- <div class="field diagnostic">
                         <div class="label">Esami diagnostici: </div>
                         <div class="value"></div>
-                    </div>
+                    </div> -->
                     
                 </div>
             </div>
@@ -131,16 +139,18 @@
 
     <script src="../js/engine3d.js"></script>
     
-    <script src="../geometries/human1_map.js"></script>
-
-
+    
     <script src="../js/ui.js"></script>
     <script src="../js/body.js"></script>
     <script src="../js/timeline.js"></script>
     <script src="../js/detail.js"></script>
 
 
-    <script src="./app.js"></script>
+    <script>
+        window.APP_BASEPATH = "../";
+    </script>
+
+    <script src="../js/app.js"></script>
 
 
 

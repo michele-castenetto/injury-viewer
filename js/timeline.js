@@ -18,6 +18,10 @@
         
         p.hovered = null;
 
+        var RADIUS = 20;
+        var LINE_RADIUS = 8;
+        var MARGIN = 20;
+
 
         p.setData = function(injuries) {
 
@@ -67,13 +71,14 @@
             loadIcons();
 
             p.imageMode(p.CENTER);
+            p.rectMode(p.CENTER);
 
         };
 
 
         p.draw = function() {
 
-            p.background(250);
+            p.background(253);
 
             drawGraph();
 
@@ -81,6 +86,18 @@
             
         };
         
+
+        var getPosition = function(injury, index) {
+            var posX = p.map(injury.dateUnix, p.minDate.unix(), p.maxDate.unix(), MARGIN, p.width - MARGIN);
+            var posY = p.height/2;
+            var offsetY = [-80, 80, -40, 40][index % 4];
+            posY += offsetY;
+            return {
+                x: posX,
+                y: posY
+            };
+        };
+
 
         var drawData = function() {
 
@@ -91,14 +108,11 @@
 
             p.injuries.forEach(function(injury, index) {
 
-                var posX = p.map(injury.dateUnix, p.minDate.unix(), p.maxDate.unix(), 20, p.width - 20);
-                var posY = p.height/2;
-                var offsetY = [-80, 80, -40, 40][index % 4];
-                posY += offsetY;
+                var pos = getPosition(injury, index);
+                injury.pos = pos;
 
-
-                var distance = p.dist(p.mouseX, p.mouseY, posX, posY);
-                if( distance <= 20) {
+                var distance = p.dist(p.mouseX, p.mouseY, pos.x, pos.y);
+                if( distance <= RADIUS) {
                     if (distance <= minDistance) {
                         p.hovered = injury;
                         minDistance = distance;
@@ -108,103 +122,142 @@
             });
 
 
+            var injuryHighlighted = p.focusData || p.hovered; 
+            var injuryHighlightedId = injuryHighlighted && injuryHighlighted.id || ""; 
 
-
+            
+            
             p.injuries.forEach(function(injury, index) {
                 
-                p.stroke(200);
-                p.noStroke();
-
-                var posX = p.map(injury.dateUnix, p.minDate.unix(), p.maxDate.unix(), 20, p.width - 20);
-                var posY = p.height/2;
-                var offsetY = [-80, 80, -40, 40][index % 4];
-                posY += offsetY;
+                if (injury.id === injuryHighlightedId) {
+                    return;
+                }
 
 
-
-                p.strokeWeight(1);
-                p.stroke(220);
-                p.line(posX, posY, posX, p.height/2);
-
-                p.fill(250);
-                p.strokeWeight(1);
-                p.ellipse(posX, p.height/2, 5, 5);
+                // p.stroke(200);
+                // p.strokeWeight(2);
+                p.stroke(150, 170, 200, 100);  
+                p.strokeWeight(3);
+                p.fill(253);
 
 
+                // var pos = getPosition(injury, index);
+                var pos = injury.pos;
 
-                var radius = 20;
+                p.line(pos.x, pos.y + (Math.sign(p.height/2 - pos.y)) * RADIUS, pos.x, p.height/2);
 
+                p.strokeWeight(2);
+                p.ellipse(pos.x, p.height/2, LINE_RADIUS, LINE_RADIUS);
+                p.strokeWeight(3);
+
+                var color = p.getLevelColor(injury.injury_level).color;
                 
-                if (p.focusData && p.focusData.id === injury.id) {
-                    radius = 30;
-                    p.fill(255, 0);
-                    p.stroke(240, 200, 0);
-                    p.strokeWeight(5);
-                    p.ellipse(posX, posY, radius * (1.6), radius * (1.6));
-                } 
-
-                if (p.hovered && p.hovered.id === injury.id) {
-                    radius = 30;
-                    p.fill(255, 0);
-                    p.stroke(240, 200, 0);
-                    p.strokeWeight(5);
-                    p.ellipse(posX, posY, radius * (1.6), radius * (1.6));
-                }
-                if (p.handleHover) {
-                    p.handleHover(p.hovered);
-                }
+                // ##OLD cerchio colorato interno                
+                // p.noStroke();
+                // p.stroke(color.r, color.g, color.b, 150);  
+                // p.fill(255, 0);
+                // p.fill(color.r, color.g, color.b, 70);
+                // p.ellipse(pos.x, pos.y, RADIUS*1.5, RADIUS*1.5);
+                
+                p.noStroke();
+                p.fill(color.r, color.g, color.b, 100);
+                p.ellipse(pos.x, pos.y, RADIUS * 1.7, RADIUS * 1.7);
 
 
+                p.fill(255, 0);
+                p.stroke(150, 170, 200, 100);
+                p.ellipse(pos.x, pos.y, RADIUS*2, RADIUS*2);
 
 
                 var injuty_type = injury.type;
-
                 var icon = iconMap[injuty_type];
-                // console.log(icon);
-
-                if (icon) {
-                    p.image(icon, posX, posY, radius, radius);
-                }
-                
-                p.strokeWeight(2);
-                var color = p.getLevelColor(injury.injury_level);
-                p.stroke(color.r, color.g, color.b);  
-                
-
-                p.fill(255, 0);
-                p.ellipse(posX, posY, radius * (1.5), radius * (1.5));
+                if (icon) { p.image(icon, pos.x, pos.y, RADIUS, RADIUS); }
 
 
+                // healing time
+                var healingTime = injury.healing_time * 24 * 3600;
+                var healingPosX = p.map(injury.dateUnix + healingTime, p.minDate.unix(), p.maxDate.unix(), MARGIN, p.width - MARGIN);
+
+                // p.stroke(50, 100, 200, 100);  
+                // p.strokeWeight(6);
+                // p.line(pos.x, pos.y + RADIUS, healingPosX, pos.y + RADIUS);
+                p.noStroke();
+                p.fill(50, 100, 200, 100);
+                p.rect(pos.x + (healingPosX - pos.x)/2, pos.y - (Math.sign(p.height/2 - pos.y)) * RADIUS * 1.2, healingPosX - pos.x, 8);
 
             });
+
+            if (p.handleHover) {
+                p.handleHover(p.hovered);
+            }
+
+            if (!injuryHighlighted) { return; }
+            
+            var injury = injuryHighlighted;
+
+            p.stroke(200);
+            p.fill(250);
+            p.strokeWeight(2);
+            p.stroke(240, 200, 0);
+            
+
+            var pos = injury.pos;
+
+            p.line(pos.x, pos.y + (Math.sign(p.height/2 - pos.y)) * RADIUS, pos.x, p.height/2);
+
+            p.ellipse(pos.x, p.height/2, LINE_RADIUS, LINE_RADIUS);
+
+            
+            var color = p.getLevelColor(injury.injury_level).color; 
+            p.noStroke();
+            p.fill(color.r, color.g, color.b, 100);
+            p.ellipse(pos.x, pos.y, RADIUS * 1.7, RADIUS * 1.7);
+
+
+            var injuty_type = injury.type;
+            var icon = iconMap[injuty_type];
+            if (icon) { p.image(icon, pos.x, pos.y, RADIUS, RADIUS); }
+
+
+            p.fill(255, 0);
+            p.stroke(240, 200, 0);
+            p.strokeWeight(5);
+            p.ellipse(pos.x, pos.y, RADIUS * (2.2), RADIUS * (2.2));
+
+
+            // healing time
+            var healingTime = injury.healing_time * 24 * 3600;
+            var healingPosX = p.map(injury.dateUnix + healingTime, p.minDate.unix(), p.maxDate.unix(), MARGIN, p.width - MARGIN);
+
+            // p.stroke(50, 100, 200, 100);  
+            // p.strokeWeight(5);
+            // p.line(pos.x, pos.y + RADIUS, healingPosX, pos.y + RADIUS);
+            p.noStroke();
+            p.fill(50, 100, 200, 100);
+            p.rect(pos.x + (healingPosX - pos.x)/2, pos.y - (Math.sign(p.height/2 - pos.y)) * RADIUS * 1.2, healingPosX - pos.x, 8);
+
         };
 
 
         var drawGraph = function() {
 
-            p.stroke(200);
-            p.strokeWeight(2);
-            p.line(20, p.height/2, p.width - 20, p.height/2);
-
-            
             if (!p.dataLoaded) { return; }
-
-
-            // p.fill(250);
 
             var minYear = p.minDate.year();
             var maxYear = p.maxDate.year();
+
+            p.stroke(235);
+            p.strokeWeight(1);
 
             for (var year = minYear; year <= maxYear + 1; year++) {
 
                 var date = moment("01-01-"+ year, "DD-MM-YYYY");
                 var time = date.unix();
-                var position = p.map(time, p.minDate.unix(), p.maxDate.unix(), 20, p.width - 20);
+                var position = p.map(time, p.minDate.unix(), p.maxDate.unix(), MARGIN, p.width - MARGIN);
 
                 // p.ellipse(position, p.height/2, 5, 5);
-                p.stroke(230);
-                p.strokeWeight(1);
-                p.line(position, 30, position, p.height- 10);
+
+                p.line(position, MARGIN * 2, position, p.height - MARGIN);
 
 
                 p.textAlign(p.CENTER);
@@ -214,6 +267,14 @@
                 p.text(year, position, 20); 
 
             }
+
+            // p.stroke(200);
+            // p.strokeWeight(2);
+            p.stroke(150, 170, 200, 100);  
+            p.strokeWeight(6);
+
+
+            p.line(20, p.height/2, p.width - 20, p.height/2);
 
         };
 
