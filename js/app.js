@@ -160,6 +160,30 @@
         }
     });
 
+    // button healinViewMode
+
+    var button = UI.Button();
+    button.mount(document.querySelector(".box_filters"));
+    button.update({
+        className: "button_control button_healing",
+        iconClass: "icon-menu2",
+        handleClick: function() {
+            TIMELINE.setHealingViewMode();
+        }
+    });
+
+    // button resetview
+
+    var buttonResetView = UI.Button();
+    buttonResetView.mount(document.querySelector(".box_filters"));
+    buttonResetView.update({
+        className: "button_control button_resetview",
+        iconClass: "icon-enlarge2",
+        handleClick: function() {
+            TIMELINE.resetView();
+        }
+    });
+
 
     
     var serHeaderData = function(anagraphic) {
@@ -174,6 +198,8 @@
 
 
     var loadData = function(filePath) {
+
+        DETAIL.setData();
         
         getjson(filePath, function(err, data) {
             if (err) { return console.log(err); }

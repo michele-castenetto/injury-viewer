@@ -180,7 +180,7 @@
             "id": "11",
             "label": "Trauma lombare",
             "bodyLocation": "SCHIENA_LOMBARE",
-            "description": "Dolore persistente alla zona lonbare e coccigea",
+            "description": "Dolore persistente alla zona lombare e coccigea",
             "healing_time": 45,
             "diagnostic": ["RX", "RM"],
             "injury_level": 4,

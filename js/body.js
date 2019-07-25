@@ -190,7 +190,7 @@
             if (err) { return console.log(err); }
             callback(null);
         });
-
+        
         engine3d.toggleCameraRotateAnimation();
 
         var button = UI.Button();

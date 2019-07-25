@@ -93,6 +93,7 @@ html, body {
 }
 
 .box_filters {
+    position: relative;
     border-radius: 2px;
     border: 1px solid #eee;
     box-shadow: 1px 1px 4px 1px #ddd;
@@ -120,6 +121,7 @@ html, body {
 }
 
 .box_timeline {
+    position: relative;
     border-radius: 2px;
     border: 1px solid #eee;
     box-shadow: 1px 1px 4px 1px #ddd;
@@ -302,13 +304,44 @@ html, body {
 
 
 
-.detail .diagnostic_element {
+/* .detail .diagnostic_element {
     display: inline;
     border: 1px solid #ddd;
     background-color: #eee;
     padding: 0.3rem;
     cursor: pointer;
     margin-right: 0.3rem;
+} */
+
+
+.detail .box_diagnostic {
+    position: absolute;
+    width: 10rem;
+    top: 0.5rem;
+    height: 6rem;;
+    right: 0.5rem;
+    /* border-left: 2px solid #eee;
+    border-bottom: 2px solid #eee; */
+    padding: 0.5rem;
+    box-shadow: -1px 1px 4px 1px #eee;
+}
+
+.detail .box_diagnostic .label {
+    color: #6f777a;
+    font-size: 1rem;
+    font-weight: 100;
+    margin: 0 0 1rem;
+}
+
+.detail .box_diagnostic .diagnostic_element {
+    display: inline;
+    border: 1px solid #eee;
+    color: #6f777a;
+    /* background-color: #fafafa; */
+    padding: 0.3rem;
+    cursor: pointer;
+    margin-right: 0.3rem;
+    box-shadow: 1px 1px 4px 1px #ddd;
 }
 
 
@@ -331,6 +364,14 @@ html, body {
     cursor: pointer;
 }
 
+.button_healing {
+    top: 0.3rem;
+    right: 0.3rem;
+}
+.button_resetview {
+    top: 0.3rem;
+    right: 3.3rem;
+}
 
 .box_select {
     display: inline-block;

@@ -3,10 +3,19 @@
     var _this = {};
 
 
-    _this.setData = function(injury, a) {
+
+
+
+    _this.setData = function(injury) {
+
+        if (!injury) {
+            document.querySelector(".init_message").style = "display:block";
+            document.querySelector(".detail").style = "display:none";
+            return;
+        }
+
 
         document.querySelector(".init_message").style = "display:none";
-
         document.querySelector(".detail").style = "display:block";
 
         // image
@@ -26,7 +35,7 @@
         var date = (injury.dateObj.day  ? injury.dateObj.day + "/" : "") + (injury.dateObj.month ? injury.dateObj.month + "/" : "") + injury.dateObj.year;
         document.querySelector(".detail .date .value").innerHTML = date;
 
-        // gravità
+        // livello gravità
         var levelObj = _this.getLevelColor(injury.injury_level);
         var color = levelObj.color;
         // var borderStyleString = '3px solid rgb(' + color.r + ',' + color.g + ',' + color.b + ')';
@@ -46,18 +55,18 @@
         
 
         
-        // var diagnosticNode = document.querySelector(".detail .diagnostic .value"); 
-        // diagnosticNode.innerHTML = "";
+        var diagnosticNode = document.querySelector(".detail .box_diagnostic .value"); 
+        diagnosticNode.innerHTML = "";
 
-        // injury.diagnostic.forEach(function(diagnostic) {
+        injury.diagnostic.forEach(function(diagnostic) {
 
-        //     var node = document.createElement("div");
-        //     node.setAttribute("class", "diagnostic_element");
-        //     node.innerHTML = diagnostic;
+            var node = document.createElement("div");
+            node.setAttribute("class", "diagnostic_element");
+            node.innerHTML = diagnostic;
 
-        //     diagnosticNode.append(node);
+            diagnosticNode.append(node);
 
-        // });
+        });
 
     };
 

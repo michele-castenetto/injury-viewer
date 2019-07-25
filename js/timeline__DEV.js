@@ -26,32 +26,9 @@
         var MINYEARSPACE = 50;
 
 
-        // variabili per scale e translate
         var scaleFactor = 1;
         var translatePosX = 0;
         var translatePosY = 0;
-
-        p.resetView = function() {
-            scaleFactor = 1;
-            translatePosX = 0;
-            translatePosY = 0;
-        };
-
-        var mouseWorldX;
-        var mouseWorldY;
-        // ##OLD
-        // var calcMouseWorldPos = function() {
-        //     mouseWorldX = (p.mouseX - translatePosX) / scaleFactor;
-        //     mouseWorldY = (p.mouseY - translatePosY) / scaleFactor;
-        // };
-        var calcMouseWorldPos = function() {
-            // mouseWorldX = p.mouseX;
-            // mouseWorldY = p.mouseY;
-            mouseWorldX = ( (p.mouseX - p.width/2) / scaleFactor + p.width/2) ;
-            mouseWorldX -= translatePosX;
-            mouseWorldY = ( (p.mouseY - p.height/2) / scaleFactor + p.height/2) ;
-            mouseWorldY -= translatePosY;
-        };
 
 
         p.setData = function(injuries) {
@@ -69,12 +46,6 @@
             p.injuries = injuries;
             p.dataLoaded = true;
 
-        };
-
-        var healingViewMode = 0;
-
-        p.setHealingViewMode = function() {
-            healingViewMode = (healingViewMode + 1) % 3;
         };
 
 
@@ -109,28 +80,46 @@
         p.draw = function() {
 
             p.background(253);
-            
-            p.translate(p.width/2, p.height/2);
-            p.scale(scaleFactor);
-            p.translate(-p.width/2, -p.height/2);
-            
-            p.translate(translatePosX, translatePosY);
 
-            calcMouseWorldPos();
+
+            // p.translate(p.width/2, p.height/2);
+            // p.scale(scaleFactor);
+            // p.translate(-p.width/2, -p.height/2);
+            
+            // p.translate(translatePosX, translatePosY);
+
             
             drawGraph();
 
             drawData();
-
-            drawLegend();
             
         };
         
 
+        // ##OLD
+        // var getPosition = function(injury, index) {
+        //     var posX = p.map(injury.dateUnix, p.minDate.unix(), p.maxDate.unix(), MARGIN, p.width - MARGIN);
+        //     var posY = p.height/2;
+        //     var offsetY = [-80, 80, -40, 40][index % 4];
+        //     posY += offsetY;
+        //     return {
+        //         x: posX,
+        //         y: posY
+        //     };
+        // };
         var getPosition = function(injury, index) {
+
             var posX = p.map(injury.dateUnix, p.minDate.unix(), p.maxDate.unix(), MARGIN, p.width - MARGIN);
             var posY = p.height/2;
+
+            posX *= scaleFactor;
+            posY *= scaleFactor;
+
+            posX += translatePosX;
+            posY += translatePosY;
+
             var offsetY = [-80, 80, -40, 40][index % 4];
+            // posY += offsetY * scaleFactor;
             posY += offsetY;
             return {
                 x: posX,
@@ -139,7 +128,18 @@
         };
 
 
+
+
+
         var drawData = function() {
+            
+            var radius = RADIUS * scaleFactor; 
+            var line_radius = LINE_RADIUS * scaleFactor;
+
+            var linePosY = p.height/2;
+            linePosY *= scaleFactor;
+            linePosY += translatePosY;
+
 
             if (!p.dataLoaded) { return; }
 
@@ -151,10 +151,8 @@
                 var pos = getPosition(injury, index);
                 injury.pos = pos;
 
-
-                // var distance = p.dist(p.mouseX, p.mouseY, pos.x, pos.y);
-                var distance = p.dist(mouseWorldX, mouseWorldY, pos.x, pos.y);
-                if( distance <= RADIUS) {
+                var distance = p.dist(p.mouseX, p.mouseY, pos.x, pos.y);
+                if( distance <= radius) {
                     if (distance <= minDistance) {
                         p.hovered = injury;
                         minDistance = distance;
@@ -186,10 +184,13 @@
                 // var pos = getPosition(injury, index);
                 var pos = injury.pos;
 
-                p.line(pos.x, pos.y + (Math.sign(p.height/2 - pos.y)) * RADIUS, pos.x, p.height/2);
+
+    
+                
+                p.line(pos.x, pos.y + (Math.sign(linePosY - pos.y)) * radius, pos.x, linePosY);
 
                 p.strokeWeight(2);
-                p.ellipse(pos.x, p.height/2, LINE_RADIUS, LINE_RADIUS);
+                p.ellipse(pos.x, linePosY, line_radius, line_radius);
                 p.strokeWeight(3);
 
                 var color = p.getLevelColor(injury.injury_level).color;
@@ -203,51 +204,31 @@
                 
                 p.noStroke();
                 p.fill(color.r, color.g, color.b, 100);
-                p.ellipse(pos.x, pos.y, RADIUS * 1.7, RADIUS * 1.7);
+                p.ellipse(pos.x, pos.y, radius * 1.7, radius * 1.7);
 
 
                 p.fill(255, 0);
                 p.stroke(150, 170, 200, 100);
-                p.ellipse(pos.x, pos.y, RADIUS*2, RADIUS*2);
+                p.ellipse(pos.x, pos.y, radius*2, radius*2);
 
 
                 var injuty_type = injury.type;
                 var icon = iconMap[injuty_type];
-                if (icon) { p.image(icon, pos.x, pos.y, RADIUS, RADIUS); }
+                if (icon) { p.image(icon, pos.x, pos.y, radius, radius); }
 
 
                 // healing time
-                // var healingTime = injury.healing_time * 24 * 3600;
-                // var healingPosX = p.map(injury.dateUnix + healingTime, p.minDate.unix(), p.maxDate.unix(), MARGIN, p.width - MARGIN);
+                var healingTime = injury.healing_time * 24 * 3600;
+                var healingPosX = p.map(injury.dateUnix + healingTime, p.minDate.unix(), p.maxDate.unix(), MARGIN, p.width - MARGIN);
+                healingPosX *= scaleFactor;
+                healingPosX += translatePosX;
 
                 // p.stroke(50, 100, 200, 100);  
                 // p.strokeWeight(6);
                 // p.line(pos.x, pos.y + RADIUS, healingPosX, pos.y + RADIUS);
-
-                // p.noStroke();
-                // p.fill(50, 100, 200, 100);
-                // p.rect(pos.x + (healingPosX - pos.x)/2, pos.y - (Math.sign(p.height/2 - pos.y)) * (RADIUS + 4), healingPosX - pos.x, 6);
-                // p.fill(200, 100);
-                // p.rect(pos.x + (healingPosX - pos.x)/2, pos.y - (Math.sign(p.height/2 - pos.y)) * (RADIUS + 10), healingPosX - pos.x, 6);
-
-
-                // healing time
-                var healingDays = injury.healing_time;
-                var healingTime = injury.healing_time * 24 * 3600;
-                var healingPosX = p.map(injury.dateUnix + healingTime, p.minDate.unix(), p.maxDate.unix(), MARGIN, p.width - MARGIN);
                 p.noStroke();
-                // p.fill(200, 100);
-                // p.rect(pos.x + 15, pos.y - (Math.sign(p.height/2 - pos.y)) * (RADIUS + 12), 30, 6);
-                // p.fill(50, 100, 200, 150);
-                // p.rect(pos.x + (healingPosX - pos.x)/2, pos.y - (Math.sign(p.height/2 - pos.y)) * (RADIUS + 12), healingPosX - pos.x, 6);
-                // p.rect(pos.x + 15, pos.y - (Math.sign(p.height/2 - pos.y)) * (RADIUS + 12), 30, 6);
                 p.fill(50, 100, 200, 100);
-                if (healingViewMode === 0) {
-                    p.rect(pos.x + healingDays/2, pos.y - (Math.sign(p.height/2 - pos.y)) * (RADIUS + 6), healingDays, 6);
-                } else if(healingViewMode === 1) {
-                    p.rect(pos.x + (healingPosX - pos.x)/2, pos.y - (Math.sign(p.height/2 - pos.y)) * (RADIUS + 6), healingPosX - pos.x, 6);
-                }
-
+                p.rect(pos.x + (healingPosX - pos.x)/2, pos.y - (Math.sign(linePosY - pos.y)) * radius * 1.2, healingPosX - pos.x, 8);
 
             });
 
@@ -259,7 +240,7 @@
             
             var injury = injuryHighlighted;
 
-            // p.stroke(200);
+            p.stroke(200);
             p.fill(250);
             p.strokeWeight(2);
             p.stroke(240, 200, 0);
@@ -267,51 +248,41 @@
 
             var pos = injury.pos;
 
-            p.line(pos.x, pos.y + (Math.sign(p.height/2 - pos.y)) * RADIUS, pos.x, p.height/2);
+            p.line(pos.x, pos.y + (Math.sign(linePosY - pos.y)) * radius, pos.x, linePosY);
 
-            p.ellipse(pos.x, p.height/2, LINE_RADIUS, LINE_RADIUS);
+            p.ellipse(pos.x, linePosY, line_radius, line_radius);
 
             
             var color = p.getLevelColor(injury.injury_level).color; 
             p.noStroke();
             p.fill(color.r, color.g, color.b, 100);
-            p.ellipse(pos.x, pos.y, RADIUS * 1.7, RADIUS * 1.7);
+            p.ellipse(pos.x, pos.y, radius * 1.7, radius * 1.7);
 
 
             var injuty_type = injury.type;
             var icon = iconMap[injuty_type];
-            if (icon) { p.image(icon, pos.x, pos.y, RADIUS, RADIUS); }
+            if (icon) { p.image(icon, pos.x, pos.y, radius, radius); }
 
 
             p.fill(255, 0);
             p.stroke(240, 200, 0);
             p.strokeWeight(5);
-            p.ellipse(pos.x, pos.y, RADIUS * (2.2), RADIUS * (2.2));
+            p.ellipse(pos.x, pos.y, radius * (2.2), radius * (2.2));
 
 
             // healing time
-            // var healingTime = injury.healing_time * 24 * 3600;
-            // var healingPosX = p.map(injury.dateUnix + healingTime, p.minDate.unix(), p.maxDate.unix(), MARGIN, p.width - MARGIN);
+            var healingTime = injury.healing_time * 24 * 3600;
+            var healingPosX = p.map(injury.dateUnix + healingTime, p.minDate.unix(), p.maxDate.unix(), MARGIN, p.width - MARGIN);
+            healingPosX *= scaleFactor;
+            healingPosX += translatePosX;
+
+
             // p.stroke(50, 100, 200, 100);  
             // p.strokeWeight(5);
             // p.line(pos.x, pos.y + RADIUS, healingPosX, pos.y + RADIUS);
-            // p.noStroke();
-            // p.fill(50, 100, 200, 100);
-            // p.rect(pos.x + (healingPosX - pos.x)/2, pos.y - (Math.sign(p.height/2 - pos.y)) * RADIUS * 1.2, healingPosX - pos.x, 8);
-
-            // healing time
-            var healingDays = injury.healing_time;
-            var healingTime = injury.healing_time * 24 * 3600;
-            var healingPosX = p.map(injury.dateUnix + healingTime, p.minDate.unix(), p.maxDate.unix(), MARGIN, p.width - MARGIN);
             p.noStroke();
-            // p.fill(200, 100);
-            // p.rect(pos.x + 15, pos.y - (Math.sign(p.height/2 - pos.y)) * (RADIUS + 12), 30, 6);
             p.fill(50, 100, 200, 100);
-            if (healingViewMode === 0) {
-                p.rect(pos.x + healingDays/2, pos.y - (Math.sign(p.height/2 - pos.y)) * (RADIUS + 6), healingDays, 6);
-            } else if(healingViewMode === 1) {
-                p.rect(pos.x + (healingPosX - pos.x)/2, pos.y - (Math.sign(p.height/2 - pos.y)) * (RADIUS + 6), healingPosX - pos.x, 6);
-            }
+            p.rect(pos.x + (healingPosX - pos.x)/2, pos.y - (Math.sign(linePosY - pos.y)) * radius * 1.2, healingPosX - pos.x, 8);
 
         };
 
@@ -319,6 +290,10 @@
         var drawGraph = function() {
 
             if (!p.dataLoaded) { return; }
+
+            var linePosY = p.height/2;
+            linePosY *= scaleFactor;
+            linePosY += translatePosY;
 
             var minYear = p.minDate.year();
             var maxYear = p.maxDate.year();
@@ -344,14 +319,6 @@
             }
 
 
-            // p.stroke(200, 100);
-            // p.strokeWeight(6);
-            // p.line(20, MARGIN * 2, p.width - 20, MARGIN * 2);
-
-            p.stroke(150, 170, 200, 100);  
-            p.strokeWeight(6);
-            p.line(20, p.height/2, p.width - 20, p.height/2);
-
             for (var year = minYear; year <= maxYear + 1; year++) {
 
                 if (yearStep !== 0 && year % yearStep !== 0) { continue; }
@@ -360,50 +327,32 @@
                 var date = moment("01-01-"+ year, "DD-MM-YYYY");
                 var time = date.unix();
                 var position = p.map(time, p.minDate.unix(), p.maxDate.unix(), MARGIN, p.width - MARGIN);
-
-                // p.stroke(200, 100);
-                // p.strokeWeight(2);
-                // p.fill(253);
-                // p.ellipse(position, MARGIN * 2, LINE_RADIUS, LINE_RADIUS);
-
-                p.stroke(235);
-                p.strokeWeight(1);
-                p.line(position, MARGIN * 2, position, p.height - MARGIN * 3);
+                position *= scaleFactor;
+                position += translatePosX;
 
 
-                // p.stroke(235);
-                // p.strokeWeight(1);
+                // p.ellipse(position, p.height/2, 5, 5);
+
+                p.line(position, MARGIN * 2, position, linePosY - MARGIN);
+
+
                 p.textAlign(p.CENTER);
                 p.textSize(10);
                 p.fill(200);
+                // p.text(year, position, p.height/2 - 15); 
                 p.text(year, position, 20); 
 
             }
 
+            // p.stroke(200);
+            // p.strokeWeight(2);
+            p.stroke(150, 170, 200, 100);  
+            p.strokeWeight(6);
+
+
+            p.line(20, linePosY, p.width - 20, linePosY);
+
         };
-
-
-        var drawLegend = function() {
-            p.noStroke();
-            p.fill(50, 100, 200, 100);
-
-            if (healingViewMode === 0) {
-                p.rect(MARGIN + 15, p.height - MARGIN - 6, 30, 6);
-            } else if(healingViewMode === 1) {
-                var monthTime = p.map(p.minDate.unix() + 30 * 24 * 3600, p.minDate.unix(), p.maxDate.unix(), MARGIN, p.width - MARGIN);
-                p.rect(MARGIN + (monthTime - MARGIN)/2, p.height - MARGIN - 6, monthTime - MARGIN, 6);
-            }
-
-            if (healingViewMode === 2) {
-                return;
-            }
-
-            p.textAlign(p.LEFT);
-            p.fill(200);
-            p.textSize(12);
-            p.text("tempo di guarigione (1 mese)", MARGIN, p.height - MARGIN - 12); 
-        };
-
 
         // evento click
         p.mousePressed = function() {
@@ -423,27 +372,23 @@
         };
 
 
-        // eventi zoom e move
+
+
+
 
         var startPos = new p5.Vector(0, 0);
         var moveViewport = false;
         
         p.keyPressed = function() {
-            if(p.key == 'r') {
-                p.resetView();
-            }
-            if(p.key == 't') {
-                p.setHealingViewMode();
-            }
+          if(p.key == 'r') {
+            scaleFactor = 1;
+            translatePosX = 0;
+            translatePosY = 0;
+          }
         };
-
-
+        
         p.mouseWheel = function(event) {
             var e = event.delta;
-
-            var isInsideCanvas = p.mouseX <= p.width && p.mouseX >= 0 && p.mouseY <= p.height && p.mouseY >= 0;
-
-            if (!isInsideCanvas) { return; }
 
             scaleFactor += e * -0.001;
             if(scaleFactor < 1) {
@@ -464,7 +409,13 @@
             startPos.x = p.mouseX;
             startPos.y = p.mouseY;
         };
-                
+        
+        // p.mousePressed = function() {
+        //     startPos.x = p.mouseX;
+        //     startPos.y = p.mouseY;
+        //     moveViewport = true;
+        // };
+        
         p.mouseReleased = function() {
             moveViewport = false;
         };
